@@ -82,6 +82,15 @@ jobs:
 
     # Step 8: # Log in to Docker Hub
     #### 
+        - name: Check if DockerHub secrets are present
+          run: |
+            echo "Username: ${{ secrets.DOCKERHUB_USERNAME }}"
+            if [ -z "${{ secrets.DOCKERHUB_TOKEN }}" ]; then
+              echo "❌ DOCKERHUB_TOKEN is empty or missing"
+              exit 1
+            else
+              echo "✅ DOCKERHUB_TOKEN is set"
+            fi
         - name: Log in to Docker Hub
           run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
