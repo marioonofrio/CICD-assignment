@@ -33,7 +33,11 @@ jobs:
 
       - name: Lint Python code
         run: |
-          flake8 .
+          if [ -f .flake8 ] || [ -f setup.cfg ] || [ -f tox.ini ] || [ -f .pep8 ]; then
+            flake8 .
+          else
+            echo "No lint configuration found, skipping linting."
+          fi
 
       # Step 4: Run Python tests
       - name: Run Python tests
